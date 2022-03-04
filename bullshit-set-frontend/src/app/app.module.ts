@@ -9,6 +9,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {JoinGameComponent} from "./components/join-game/join-game.component";
 import {ScoreboardComponent} from "./components/scoreboard/scoreboard.component";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {AgGridModule} from "ag-grid-angular";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -23,7 +25,10 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     BrowserAnimationsModule,
     HttpClientModule,
     MatButtonModule,
-    MatGridListModule
+    MatGridListModule,
+    AgGridModule.withComponents([]),
+    FlexLayoutModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

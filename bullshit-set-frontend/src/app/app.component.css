@@ -1,39 +1,38 @@
-.toolbar {
-  height: 60px;
-  margin: -8px;
-  display: flex;
-  align-items: center;
-  background-color: #1c8adb;
-  color: white;
-  font-weight: 600;
-}
-
-.toolbar img {
-  margin: 0 16px;
-}
-
-.toolbar-vertical-line {
-  content: "";
-  width: 1px;
-  height: 100%;
-  background-color: #405065;
-}
-
-.app-title {
-  padding-right: 32px;
-}
-
-.toolbar-link {
-  color: white;
-  padding: 0 16px 0 16px;
-  text-decoration: none;
-}
-
-.toolbar-link:hover {
-
+.container {
+  margin: 10px;
 }
 
 .center {
   display: flex;
   justify-content: center;
+}
+
+.item {
+  border-radius: .2em;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 2em;
+  padding: 4em 1em;
+  text-transform: uppercase;
+}
+
+.item-1 {
+  background-color: #009169;
+}
+
+.item-2 {
+  text-align: center;
+  background-color: #55b296;
+}
+
+.item-3 {
+  background-color: #9fd3c3;
+}
+
+.item-4 {
+  background-color: #e7b013;
+}
+
+.item-5 {
+  background-color: #073443;
 }

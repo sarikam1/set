@@ -19,11 +19,14 @@ import java.util.List;
 public class Game {
 
     //all fields except end_time
+
+
     public Game(Player createdBy, Timestamp createdTime, int numPlayers, GameStatus gameStatus) {
         this.createdBy = createdBy;
         this.createdTime = createdTime;
         this.numPlayers = numPlayers;
         this.gameStatus = gameStatus;
+        this.endTime = null;
     }
 
     @Id

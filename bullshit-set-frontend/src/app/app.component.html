@@ -1,12 +1,66 @@
-<mat-grid-list cols="2" rowHeight="100px">
-  <mat-grid-tile>
-  <div class="center">
-    <app-new-game></app-new-game>
-  </div>
-  </mat-grid-tile>
-  <mat-grid-tile>
+<!--<mat-grid-list cols="4" rowHeight="500px">-->
+<!--  <mat-grid-tile>-->
+<!--    <app-join-game></app-join-game>-->
+<!--  </mat-grid-tile>-->
+<!--  <mat-grid-tile>-->
+<!--    <div class="center">-->
+<!--      <app-new-game></app-new-game>-->
+<!--    </div>-->
+<!--  </mat-grid-tile>-->
+<!--  <mat-grid-tile>-->
+<!--    <div class="center">-->
+<!--      <app-scoreboard></app-scoreboard>-->
+<!--    </div>-->
+<!--  </mat-grid-tile>-->
+<!--  <mat-grid-tile colspan="2">>-->
+<!--    <app-scoreboard></app-scoreboard>-->
+<!--  </mat-grid-tile>-->
+<!--</mat-grid-list>-->
+
+
+<!--<mat-grid-list cols="4" rowHeight="300">-->
+<!--  <mat-grid-tile rowspan="1.5">-->
+<!--    <app-join-game></app-join-game>-->
+<!--  </mat-grid-tile>-->
+<!--  <mat-grid-tile colspan="2" rowspan="2">-->
+<!--    <app-new-game></app-new-game>-->
+<!--  </mat-grid-tile>-->
+<!--  <mat-grid-tile rowspan="2">-->
+<!--    <app-scoreboard></app-scoreboard>-->
+<!--  </mat-grid-tile>-->
+<!--  <mat-grid-tile colspan="4">-->
+<!--    <app-scoreboard></app-scoreboard>-->
+<!--  </mat-grid-tile>-->
+<!--</mat-grid-list>-->
+
+<div class="container" fxLayout fxLayoutAlign="center"
+     fxLayoutGap="10px"
+     fxLayout.xs="column"
+     fxLayoutGap.xs="0"
+
+>
+
+  <app-join-game fxFlex="25%"></app-join-game>
+
+  <div class="item item-2" fxFlex="50%">
     <div class="center">
       <app-new-game></app-new-game>
     </div>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+
+  <app-scoreboard fxFlex="25%"></app-scoreboard>
+</div>
+
+<div class="container" fxLayout fxLayoutAlign="center"
+     fxLayoutGap="10px"
+     fxLayout.xs="column"
+     fxLayoutGap.xs="0">
+  <div class="item item-4" fxFlex="75%"
+       fxFlexOffset.xs="0">
+    <app-scoreboard></app-scoreboard>
+  </div>
+  <div class="item item-5" fxFlex
+       fxFlexOffset.xs="0">
+  </div>
+</div>
+
