@@ -39,7 +39,7 @@ public class Card {
     @Enumerated(EnumType.STRING)
     private CardStatus status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="deck_id", nullable = true)
     private Deck deck;
 

@@ -51,6 +51,10 @@ public class Game {
     @Enumerated(EnumType.STRING)
     private GameStatus gameStatus;
 
+    @OneToOne
+    @JoinColumn(name="deck_id")
+    private Deck deck;
+
     @OneToMany(mappedBy="game")
     private List<Participant> participants;
 }

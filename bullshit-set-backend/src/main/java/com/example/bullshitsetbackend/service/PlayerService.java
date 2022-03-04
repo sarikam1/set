@@ -2,7 +2,9 @@ package com.example.bullshitsetbackend.service;
 
 import com.example.bullshitsetbackend.domain.Player;
 import com.example.bullshitsetbackend.repository.PlayerRepo;
+import com.example.bullshitsetbackend.security.ContextUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,12 @@ public class PlayerService  {
 
     public Player addPlayer(Player player) {
         return playerRepo.save(player);
+    }
+
+    //LO: find out how this works
+    public Player getLoggedUser() {
+        ContextUser contextUser = (ContextUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return playerRepo.findPlayerByUserName(contextUser.getPlayer().getUserName());
     }
 
     public List<Player> findAllPlayers() {

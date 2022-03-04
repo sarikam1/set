@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//https://stackoverflow.com/questions/26549379/when-use-responseentityt-and-restcontroller-for-spring-restful-applications
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
@@ -20,33 +21,32 @@ public class PlayerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Player>> getAllPlayers() {
+    public List<Player> getAllPlayers() {
         List<Player> players = playerService.findAllPlayers();
-        return new ResponseEntity<>(players, HttpStatus.OK);
+        return players;
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Player> getEmployeesById(@PathVariable("id") Long id) {
+    public Player getPlayerById(@PathVariable("id") Long id) {
         Player employee = playerService.findPlayerById(id);
-        return new ResponseEntity<>(employee, HttpStatus.OK);
+        return employee;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Player> addEmployee(@RequestBody Player employee) {
+    public Player addEmployee(@RequestBody Player employee) {
         Player newEmployee = playerService.addPlayer(employee);
-        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED); //created something on server
+        return newEmployee;
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Player> updateEmployee(@RequestBody Player employee) {
+    public Player updateEmployee(@RequestBody Player employee) {
         Player updateEmployee = playerService.updatePlayer(employee);
-        return new ResponseEntity<>(updateEmployee, HttpStatus.CREATED); //created something on server
+        return updateEmployee;
     }
 
     @DeleteMapping ("/delete/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable("id") Long id) {
+    public void updateEmployee(@PathVariable("id") Long id) {
         playerService.deletePlayer(id);
-        return new ResponseEntity<>(HttpStatus.OK); //created something on server
     }
 
 
