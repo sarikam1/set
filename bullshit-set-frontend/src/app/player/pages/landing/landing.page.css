@@ -1,0 +1,38 @@
+.container {
+  margin: 10px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.item {
+  border-radius: .2em;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 2em;
+  padding: 4em 1em;
+  text-transform: uppercase;
+}
+
+.item-1 {
+  background-color: #009169;
+}
+
+.item-2 {
+  text-align: center;
+  background-color: #55b296;
+}
+
+.item-3 {
+  background-color: #9fd3c3;
+}
+
+.item-4 {
+  background-color: #e7b013;
+}
+
+.item-5 {
+  background-color: #073443;
+}
