@@ -39,8 +39,8 @@ public class GameController {
         return games;
     }
     @GetMapping("/create")
-    public Game createNewGame(@RequestBody GameDTO gameDTO) {
-        Game newGame = gameService.createNewGame(gameDTO, playerService.getLoggedUser());
+    public Game createNewGame() {
+        Game newGame = gameService.createNewGame(playerService.getLoggedUser());
         httpSession.setAttribute("gameId", newGame.getId());
         return newGame;
     }

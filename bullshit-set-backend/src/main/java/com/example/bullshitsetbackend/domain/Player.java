@@ -34,6 +34,9 @@ public class Player {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "token")
+    private String token;
+
     @OneToMany(mappedBy="player")
     private List<Participant> participants;
 

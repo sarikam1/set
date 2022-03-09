@@ -11,6 +11,9 @@ import {NewGameComponent} from "./components/new-game/new-game.component";
 import {ScoreboardComponent} from "./components/scoreboard/scoreboard.component";
 import {JoinGameComponent} from "./components/join-game/join-game.component";
 import {RouterModule} from "@angular/router";
+import {GameModule} from "../Game/game.module";
+import {SharedModule} from "../shared/shared.module";
+import {SharedService} from "../shared/shared.service";
 
 //https://medium.com/@motcowley/angular-folder-structure-d1809be95542
 
@@ -30,6 +33,8 @@ import {RouterModule} from "@angular/router";
     AgGridModule.withComponents([]),
     FlexLayoutModule,
     RouterModule,
+    GameModule,
+    SharedModule
 
   ],
   exports:[PlayerLandingPage],

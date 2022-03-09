@@ -5,10 +5,13 @@ import com.example.bullshitsetbackend.repository.PlayerRepo;
 import com.example.bullshitsetbackend.security.ContextUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -46,6 +49,33 @@ public class PlayerService  {
     public Player deletePlayer(Long id) {
         return playerRepo.deletePlayerById(id);
     }
+
+    public String login(String username, String password) {
+        Optional player = playerRepo.login(username, password);
+        if(player.isPresent()) {
+            String token = UUID.randomUUID().toString();
+            Player realPlayer = (Player) player.get();
+            realPlayer.setToken(token);
+            playerRepo.save(realPlayer);
+            return token;
+
+        }
+        else {
+            return "";
+        }
+    }
+
+    public Optional findByToken(String token) {
+        Optional player= playerRepo.findPlayerByToken(token);
+        if(player.isPresent()){
+            Player realPlayer = (Player) player.get();
+            User user= new ContextUser(realPlayer);
+            return Optional.of(user);
+        }
+        return  Optional.empty();
+    }
+
+
 
 
 }

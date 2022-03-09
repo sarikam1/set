@@ -15,6 +15,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {PlayerLandingPage} from "./player/pages/landing/landing.page";
 import {PlayerModule} from "./player/player.module";
 import { RouterModule } from '@angular/router';
+import {SharedService} from "./shared/shared.service";
 
 
 //https://medium.com/@motcowley/angular-folder-structure-d1809be95542
@@ -23,7 +24,7 @@ import { RouterModule } from '@angular/router';
   declarations: [
     AppComponent,
   ],
-  imports: [PlayerModule,RouterModule, AppRoutingModule],
+  imports: [PlayerModule,RouterModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent]
 })

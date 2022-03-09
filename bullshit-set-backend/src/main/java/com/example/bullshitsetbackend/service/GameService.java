@@ -37,9 +37,9 @@ public class GameService  {
     }
 
 
-    public Game createNewGame(GameDTO gameDTO, Player creator) {
+    public Game createNewGame(Player creator) {
         Game newGame = new Game();
-        //TO:D)--populate deck cards
+        //TO:DO--populate deck cards
         Deck newDeck = deckService.createDeck();
         newGame.setCreatedBy(creator);
         newGame.setCreatedTime(Timestamp.from(Instant.now()));
