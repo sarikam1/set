@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class PlayerService  {
         return playerRepo.deletePlayerById(id);
     }
 
+    //provides token upon login
     public String login(String username, String password) {
         Optional player = playerRepo.login(username, password);
         if(player.isPresent()) {
@@ -65,6 +67,7 @@ public class PlayerService  {
         }
     }
 
+    //validates customer based on provided token
     public Optional findByToken(String token) {
         Optional player= playerRepo.findPlayerByToken(token);
         if(player.isPresent()){
@@ -73,6 +76,14 @@ public class PlayerService  {
             return Optional.of(user);
         }
         return  Optional.empty();
+    }
+
+    public String getToken(String username, String password){
+        String token = login(username,password);
+        if(token.isEmpty()){
+            return "no token found";
+        }
+        return token;
     }
 
 

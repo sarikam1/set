@@ -3,10 +3,14 @@ package com.example.bullshitsetbackend.config;
 import com.example.bullshitsetbackend.repository.PlayerRepo;
 import com.example.bullshitsetbackend.security.AuthenticationFilter;
 import com.example.bullshitsetbackend.security.UserDetailsServiceImpl;
+import com.example.bullshitsetbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
@@ -15,16 +19,27 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.cert.Extension;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -33,17 +48,25 @@ import java.security.cert.Extension;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+    private final static Logger LOGGER = Logger.getLogger(UserDetailsServiceImpl.class.getName());
+
+
 
     private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
             new AntPathRequestMatcher("/api/**")
     );
 
+    @Value("{$serviceUrl}")
+    private String serviceUrl;
 
     @Resource
     private UserDetailsService userDetailsService;
 
     @Autowired
     private PlayerRepo playerRepository;
+
+    @Autowired
+    private PlayerService playerService;
 
     private AuthenticationProvider provider;
 
@@ -64,13 +87,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider authProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService);
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//        return authProvider;
-//    }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) {
@@ -92,20 +108,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                http.
-                    sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-                and().
-                    exceptionHandling().
-                and().
-                    authenticationProvider(provider).addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class).
-                        authorizeRequests().requestMatchers(PROTECTED_URLS).authenticated().
-                and().
-                formLogin()
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("http://localhost:4200/", true).
-                and()
-                    .httpBasic().disable()
-                    .csrf().disable();
+        LOGGER.setLevel(Level.INFO);
+        http = http.cors().and().csrf().disable();
+        http = http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and();
+        http = http
+                .exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
+                            response.sendError(
+                                    HttpServletResponse.SC_UNAUTHORIZED,
+                                    ex.getMessage()
+                            );
+                        }
+                )
+                .and();
+
+        http.authorizeRequests()
+                // Our public endpoints
+                .antMatchers("/public/**").permitAll()
+                // Our private endpoints
+                .anyRequest().authenticated();
+        http.addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class);
+
+        http.formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password");
+//                .successHandler(new AuthenticationSuccessHandler() {
+//                    @Override
+//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//                        //https://www.codejava.net/frameworks/spring-boot/spring-security-authentication-success-handler-examples
+//                        String username = authentication.getName();
+//                        String password = (String) authentication.getCredentials();
+//                        String token = playerService.login(username, password);
+//                        LOGGER.info("Returning token " + token + " for user " + username);
+//                    }
+//                })
+//                .defaultSuccessUrl("http://localhost:4200/", true).
+//                and().
+//                    authenticationProvider(provider).addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class).
+//                        authorizeRequests().requestMatchers(PROTECTED_URLS).authenticated()
     }
 }

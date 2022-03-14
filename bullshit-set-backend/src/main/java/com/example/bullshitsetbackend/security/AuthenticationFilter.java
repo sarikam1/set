@@ -17,8 +17,8 @@ import java.util.Optional;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
+//Gets authentication details from client header requests
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-
     public AuthenticationFilter(final RequestMatcher requiresAuth) {
         super(requiresAuth);
     }

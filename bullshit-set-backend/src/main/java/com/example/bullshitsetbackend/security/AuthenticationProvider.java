@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+//https://www.javadevjournal.com/spring/securing-a-restful-web-service-with-spring-security/
+
+//Finds the user based on auth token
 @Component
 public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
