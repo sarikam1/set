@@ -1,10 +1,13 @@
 package com.example.bullshitsetbackend;
 
+import com.example.bullshitsetbackend.DTO.UserDTO;
+import com.example.bullshitsetbackend.controller.UserProfileController;
 import com.example.bullshitsetbackend.domain.Game;
 import com.example.bullshitsetbackend.domain.Participant;
 import com.example.bullshitsetbackend.domain.Player;
 import com.example.bullshitsetbackend.enums.GameStatus;
 import com.example.bullshitsetbackend.repository.PlayerRepo;
+import com.example.bullshitsetbackend.security.ContextUser;
 import com.example.bullshitsetbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,18 +17,32 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import com.example.bullshitsetbackend.service.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.logging.Logger;
+
 
 @SpringBootApplication(scanBasePackages = "com.example")
+@RestController
 public class BullshitSetBackendApplication {
+    private final static Logger LOGGER = Logger.getLogger(BullshitSetBackendApplication.class.getName());
+
 
     public static void main(String[] args) {
         SpringApplication.run(BullshitSetBackendApplication.class, args);
@@ -71,6 +88,26 @@ public class BullshitSetBackendApplication {
         };
     }
 
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+//    @PostMapping("saveUser")
+//    public void saveGameEntry(@RequestBody UserDTO userDto){
+//        LOGGER.info("Saving user: " + userDto.getUsername());
+//
+//        Player player = new Player(userDto.getUsername(), passwordEncoder().encode(userDto.getPassword()));
+//        ContextUser user = new ContextUser(player);
+//        if(userDaoService.selectByName(userDto.getUsername()).isEmpty()){
+//            userDaoService.save(user);
+//        }
+//    }
+
+
+    @RequestMapping("api/users/user")
+    public Principal user(Principal user) {
+        LOGGER.info("User is " + user);
+        return user;
+    }
 
 }

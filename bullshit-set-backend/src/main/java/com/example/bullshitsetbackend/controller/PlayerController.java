@@ -28,20 +28,20 @@ public class PlayerController {
 
     @GetMapping("/find/{id}")
     public Player getPlayerById(@PathVariable("id") Long id) {
-        Player employee = playerService.findPlayerById(id);
-        return employee;
+        Player player = playerService.findPlayerById(id);
+        return player;
     }
 
     @PostMapping("/add")
     public Player addEmployee(@RequestBody Player employee) {
-        Player newEmployee = playerService.addPlayer(employee);
-        return newEmployee;
+        Player newPlayer = playerService.addPlayer(employee);
+        return newPlayer;
     }
 
     @PutMapping("/update")
     public Player updateEmployee(@RequestBody Player employee) {
-        Player updateEmployee = playerService.updatePlayer(employee);
-        return updateEmployee;
+        Player updatePlayer = playerService.updatePlayer(employee);
+        return updatePlayer;
     }
 
     @DeleteMapping ("/delete/{id}")

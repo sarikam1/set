@@ -25,6 +25,11 @@ public class Player {
         this.password = password;
     }
 
+    public Player(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
     @Column(name = "user_name", unique = true, nullable = false)
     private String userName;
 
@@ -33,9 +38,6 @@ public class Player {
 
     @Column(name = "password")
     private String password;
-
-    @Column(name = "token")
-    private String token;
 
     @OneToMany(mappedBy="player")
     private List<Participant> participants;

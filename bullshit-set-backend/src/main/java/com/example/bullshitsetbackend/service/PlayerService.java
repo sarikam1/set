@@ -52,39 +52,39 @@ public class PlayerService  {
     }
 
     //provides token upon login
-    public String login(String username, String password) {
-        Optional player = playerRepo.login(username, password);
-        if(player.isPresent()) {
-            String token = UUID.randomUUID().toString();
-            Player realPlayer = (Player) player.get();
-            realPlayer.setToken(token);
-            playerRepo.save(realPlayer);
-            return token;
-
-        }
-        else {
-            return "";
-        }
-    }
+//    public String login(String username, String password) {
+//        Optional player = playerRepo.login(username, password);
+//        if(player.isPresent()) {
+//            String token = UUID.randomUUID().toString();
+//            Player realPlayer = (Player) player.get();
+//            realPlayer.setToken(token);
+//            playerRepo.save(realPlayer);
+//            return token;
+//
+//        }
+//        else {
+//            return "";
+//        }
+//    }
 
     //validates customer based on provided token
-    public Optional findByToken(String token) {
-        Optional player= playerRepo.findPlayerByToken(token);
-        if(player.isPresent()){
-            Player realPlayer = (Player) player.get();
-            User user= new ContextUser(realPlayer);
-            return Optional.of(user);
-        }
-        return  Optional.empty();
-    }
+//    public Optional findByToken(String token) {
+//        Optional player= playerRepo.findPlayerByToken(token);
+//        if(player.isPresent()){
+//            Player realPlayer = (Player) player.get();
+//            User user= new ContextUser(realPlayer);
+//            return Optional.of(user);
+//        }
+//        return  Optional.empty();
+//    }
 
-    public String getToken(String username, String password){
-        String token = login(username,password);
-        if(token.isEmpty()){
-            return "no token found";
-        }
-        return token;
-    }
+//    public String getToken(String username, String password){
+//        String token = login(username,password);
+//        if(token.isEmpty()){
+//            return "no token found";
+//        }
+//        return token;
+//    }
 
 
 

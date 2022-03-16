@@ -21,5 +21,5 @@ public interface PlayerRepo extends JpaRepository<Player, Long> {
     @Query(value = "SELECT u FROM Player u where u.userName = ?1 and u.password = ?2 ")
     Optional<Player> login(String username,String password);
 
-    Optional<Player>  findPlayerByToken(String token);
+//    Optional<Player>  findPlayerByToken(String token);
 }
