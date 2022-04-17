@@ -2,6 +2,7 @@ package com.example.bullshitsetbackend.config;
 
 import com.example.bullshitsetbackend.repository.PlayerRepo;
 import com.example.bullshitsetbackend.security.AuthenticationFilter;
+import com.example.bullshitsetbackend.security.CustomAuthenticationEntryPoint;
 import com.example.bullshitsetbackend.security.UserDetailsServiceImpl;
 import com.example.bullshitsetbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,15 +52,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static Logger LOGGER = Logger.getLogger(UserDetailsServiceImpl.class.getName());
 
 
-//    private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-//            new AntPathRequestMatcher("/api/**")
-//    );
-
-//    @Value("{$serviceUrl}")
-//    private String serviceUrl;
-
-    @Resource
     private UserDetailsServiceImpl userDetailsService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    public SecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint, UserDetailsServiceImpl userDetailsService) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.userDetailsService = userDetailsService;
+    }
 
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -79,9 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("api/users/user").permitAll()
+                    .antMatchers("/api/**").permitAll()
                     .anyRequest().authenticated().and().
-                        httpBasic();
+                httpBasic().authenticationEntryPoint(authenticationEntryPoint);
     }
 
     @Override

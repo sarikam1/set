@@ -104,10 +104,6 @@ public class BullshitSetBackendApplication {
 //    }
 
 
-    @RequestMapping("api/users/user")
-    public Principal user(Principal user) {
-        LOGGER.info("User is " + user);
-        return user;
-    }
+
 
 }

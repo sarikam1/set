@@ -22,4 +22,8 @@ export class LoginComponent {
     return this.authService.authenticated;
   }
 
+  incorrectCredentials() {
+    return this.authService.incorrectCredentials;
+  }
+
 }
