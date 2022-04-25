@@ -28,18 +28,7 @@ export class AuthService {
   //   });
   // }
 
-  // getData(): Observable<any> {
-  //   return new Observable(subscriber => {
-  //     this.http.get(url)
-  //       .pipe(catchError(this.handleError)
-  //         .subscribe(res => {
-  //           // Do my service.ts logic.
-  //           // ...
-  //           subscriber.next(res)
-  //           subscriber.complete()
-  //         }, err => subscriber.error(err))
-  //   })
-  // }
+
 
   //https://spring.io/guides/tutorials/spring-security-and-angular-js/#_the_login_page_angular_js_and_spring_security_part_ii
   login(credentials: User): Observable<any> {

@@ -26,6 +26,7 @@ public class GameService  {
     @Autowired
     public GameService(GameRepo gameRepo, DeckService deckService ) {
         this.gameRepo = gameRepo;
+        this.deckService = deckService;
     }
 
     public Game addGame(Game game) {

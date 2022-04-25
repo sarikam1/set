@@ -21,6 +21,7 @@ export class SharedService {
     this.gameService.createGame().subscribe({
       next: (response: Game) => {
         this.currentGame = response;
+        console.log("current game id is " + this.currentGame.id);
         ///' + this.currentGame.id]
         this.router.navigate(['/waiting']).then(() => {
             //handle after navigation logic

@@ -10,9 +10,11 @@ import {AuthGuardService} from "./auth-guard.service";
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'app', component: LoginComponent},
+  { path: 'app/login', component: LoginComponent},
   { path: 'app/player-landing', component: PlayerLandingPage, canActivate:[AuthGuardService]},
   { path: 'app/waiting', component: WaitingPage, canActivate:[AuthGuardService]},
-  { path: 'app/login', component: LoginComponent}
+  { path: 'app/game/create', component: WaitingPage, canActivate:[AuthGuardService]},
+
 ];
 
 @NgModule({

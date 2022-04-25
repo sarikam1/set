@@ -8,7 +8,7 @@ import {NewGameComponent} from "./player/components/new-game/new-game.component"
 import {MatGridListModule} from "@angular/material/grid-list";
 import {JoinGameComponent} from "./player/components/join-game/join-game.component";
 import {ScoreboardComponent} from "./player/components/scoreboard/scoreboard.component";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {AgGridModule} from "ag-grid-angular";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {AppRoutingModule} from "./app-routing.module";
@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import {SharedService} from "./shared/shared.service";
 import {LoginComponent} from "./login/login.component";
 import {FormsModule} from "@angular/forms";
+import {MyBasicAuthInterceptor} from "./basic-auth.interceptor";
 
 
 //https://medium.com/@motcowley/angular-folder-structure-d1809be95542
@@ -28,7 +29,7 @@ import {FormsModule} from "@angular/forms";
     LoginComponent
   ],
   imports: [PlayerModule, RouterModule, AppRoutingModule, HttpClientModule, FormsModule],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: MyBasicAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

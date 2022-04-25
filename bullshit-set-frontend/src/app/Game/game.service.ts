@@ -17,6 +17,6 @@ export class GameService {
   constructor(private http: HttpClient){}
 
   public createGame(): Observable<Game> {
-    return this.http.get<Game>(`${this.apiServerUrl}/game/create`);
+    return this.http.get<Game>(`${this.apiServerUrl}/api/game/create`);
   }
 }

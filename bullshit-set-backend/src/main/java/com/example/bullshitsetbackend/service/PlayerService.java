@@ -1,11 +1,13 @@
 package com.example.bullshitsetbackend.service;
 
+import com.example.bullshitsetbackend.controller.UserProfileController;
 import com.example.bullshitsetbackend.domain.Player;
 import com.example.bullshitsetbackend.repository.PlayerRepo;
 import com.example.bullshitsetbackend.security.ContextUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 @Service
 public class PlayerService  {
     private final PlayerRepo playerRepo;
+
+    private final static Logger LOGGER = Logger.getLogger(PlayerService.class.getName());
 
     @Autowired
     public PlayerService(PlayerRepo playerRepo) {
@@ -28,10 +34,18 @@ public class PlayerService  {
         return playerRepo.save(player);
     }
 
-    //LO: find out how this works
     public Player getLoggedUser() {
-        ContextUser contextUser = (ContextUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return playerRepo.findPlayerByUserName(contextUser.getPlayer().getUserName());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            LOGGER.info("Username is " + username);
+            return playerRepo.findPlayerByUserName(username);
+        }
+        else {
+            LOGGER.info("Username is " + principal.toString());
+            return playerRepo.findPlayerByUserName(principal.toString());
+        }
+
     }
 
     public List<Player> findAllPlayers() {

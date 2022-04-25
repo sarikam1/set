@@ -15,15 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/game")
+@RequestMapping("/api/game")
 public class GameController {
     GameService gameService;
 
     HttpSession httpSession;
 
     PlayerService playerService;
+
+    private final static Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
     //constructor injection >> field injection
     @Autowired
@@ -40,8 +43,10 @@ public class GameController {
     }
     @GetMapping("/create")
     public Game createNewGame() {
-        Game newGame = gameService.createNewGame(playerService.getLoggedUser());
-        httpSession.setAttribute("gameId", newGame.getId());
+        Player player = playerService.getLoggedUser();
+        LOGGER.info("current player is " + player.getUserName());
+        Game newGame = gameService.createNewGame(player);
+        //httpSession.setAttribute("gameId", newGame.getId());
         return newGame;
     }
 
