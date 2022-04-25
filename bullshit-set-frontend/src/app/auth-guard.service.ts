@@ -13,7 +13,7 @@ export class AuthGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean>|Promise<boolean>|boolean {
     //https://stackoverflow.com/questions/37364973/what-is-the-difference-between-promises-and-observables
-    if (!this.authService.authenticated) {
+    if (!sessionStorage.getItem('currentUser')) {
       this.router.navigate(['app/login']);
     }
     return true;
