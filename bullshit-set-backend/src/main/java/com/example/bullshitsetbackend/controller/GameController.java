@@ -1,8 +1,10 @@
 package com.example.bullshitsetbackend.controller;
 
 import com.example.bullshitsetbackend.DTO.GameDTO;
+import com.example.bullshitsetbackend.domain.Deck;
 import com.example.bullshitsetbackend.domain.Game;
 import com.example.bullshitsetbackend.domain.Player;
+import com.example.bullshitsetbackend.service.DeckService;
 import com.example.bullshitsetbackend.service.GameService;
 import com.example.bullshitsetbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +28,17 @@ public class GameController {
 
     PlayerService playerService;
 
+    DeckService deckService;
+
     private final static Logger LOGGER = Logger.getLogger(GameController.class.getName());
 
     //constructor injection >> field injection
     @Autowired
-    public GameController(GameService gameService, HttpSession httpSession, PlayerService playerService) {
+    public GameController(GameService gameService, HttpSession httpSession, PlayerService playerService, DeckService deckService) {
         this.gameService = gameService;
         this.httpSession = httpSession;
         this.playerService = playerService;
+        this.deckService = deckService;
     }
 
     @GetMapping("/all")
@@ -46,8 +51,17 @@ public class GameController {
         Player player = playerService.getLoggedUser();
         LOGGER.info("current player is " + player.getUserName());
         Game newGame = gameService.createNewGame(player);
-        //httpSession.setAttribute("gameId", newGame.getId());
+        this.deckService.printDeck(newGame.getDeck());
+
+        httpSession.setAttribute("currentGameId", newGame.getId());
+        LOGGER.info("current game is " + newGame);
         return newGame;
     }
+
+    @GetMapping("/current-game")
+    public int currentGameId() {
+        return (int) httpSession.getAttribute("currentgameId");
+    }
+
 
 }

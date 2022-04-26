@@ -1,6 +1,7 @@
 package com.example.bullshitsetbackend.domain;
 import com.example.bullshitsetbackend.enums.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class Card {
     private CardStatus status;
 
     @ManyToOne
+    @JsonIgnore //for deserializing bidirectional relationships: https://stackoverflow.com/questions/52782071/spring-boot-error-cannot-call-senderror-after-the-response-has-been-committ
     @JoinColumn(name="deck_id", nullable = true)
     private Deck deck;
 
@@ -47,4 +49,13 @@ public class Card {
     @JoinColumn(name="set_id", nullable = true)
     private Set set;
 
+    public Card(CardColor color, CardShading shading, CardShape shape, CardNumber number, CardStatus status, Deck deck) {
+        this.color = color;
+        this.shading = shading;
+        this.shape = shape;
+        this.number = number;
+        this.status = status;
+        this.deck = deck;
+        this.set = null;
+    }
 }

@@ -9,12 +9,9 @@ import {SharedService} from "../../../shared/shared.service";
   templateUrl: './new-game.component.html',
   styleUrls: ['./new-game.component.css']
 })
-export class NewGameComponent implements OnInit {
+export class NewGameComponent {
 
   constructor(public sharedService: SharedService) {
-  }
-
-  ngOnInit(): void {
   }
 
   public newGame(): void {
