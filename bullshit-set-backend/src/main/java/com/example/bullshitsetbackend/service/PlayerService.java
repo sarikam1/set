@@ -34,6 +34,10 @@ public class PlayerService  {
         return playerRepo.save(player);
     }
 
+    public Player getPlayerByUsername(String username) {
+        return playerRepo.findPlayerByUserName(username);
+    }
+
     public Player getLoggedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {

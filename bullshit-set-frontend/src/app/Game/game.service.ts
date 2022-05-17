@@ -19,4 +19,9 @@ export class GameService {
   public createGame(): Observable<Game> {
     return this.http.get<Game>(`${this.apiServerUrl}/api/game/create`);
   }
+
+  public getWaitingGames(): Observable<Array<Game>> {
+    return this.http.get<Array<Game>>(`${this.apiServerUrl}/api/game/waiting`);
+  }
+
 }

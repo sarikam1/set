@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService  {
@@ -22,11 +23,14 @@ public class GameService  {
 
     DeckService deckService;
 
+    PlayerService playerService;
+
 
     @Autowired
-    public GameService(GameRepo gameRepo, DeckService deckService ) {
+    public GameService(GameRepo gameRepo, DeckService deckService, PlayerService playerService) {
         this.gameRepo = gameRepo;
         this.deckService = deckService;
+        this.playerService = playerService;
     }
 
     public Game addGame(Game game) {
@@ -35,6 +39,12 @@ public class GameService  {
 
     public List<Game> findAllGames() {
         return gameRepo.findAll();
+    }
+
+    public List<Game> getWaitingGames(String username) {
+        //to-do: filter by games currently not enrolled in
+        Player currentPlayer = playerService.getPlayerByUsername(username);
+        return gameRepo.findByGameStatus(GameStatus.WAITING).stream().filter(game -> game.getCreatedBy() != currentPlayer).collect(Collectors.toList());
     }
 
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/game")
@@ -46,6 +47,14 @@ public class GameController {
         List<Game> games = gameService.findAllGames();
         return games;
     }
+
+    @GetMapping("/waiting")
+    public List<Game> getWaitingGames(String username) {
+        List<Game> games = gameService.getWaitingGames(username);
+        LOGGER.info("Waiting games list is " + games);
+        return games;
+    }
+
     @GetMapping("/create")
     public Game createNewGame() {
         Player player = playerService.getLoggedUser();
