@@ -1,7 +1,33 @@
-<ag-grid-angular
-  style="width: 100%; height: 500px;"
-  class="ag-theme-alpine"
-  [rowData]="rowData"
-  [columnDefs]="columnDefs"
->
-</ag-grid-angular>
+<!--<ag-grid-angular-->
+<!--  style="width: 100%; height: 500px;"-->
+<!--  class="ag-theme-alpine">-->
+<!--<div class="grid">-->
+<!--  <ng-container *ngFor="let game of waitingGames">-->
+<!--    <td>{{game.createdBy.userName}}</td>-->
+<!--    <td>{{game.numPlayers}}</td>-->
+<!--    <td>{{game.gameStatus}}</td>-->
+<!--  </ng-container>-->
+<!--</div>-->
+<!--</ag-grid-angular>-->
+
+<div class="container">
+  <h1>Open games</h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Started By</th>
+      <th>Number of Participants</th>
+      <th>Status</th>
+      <th>Join</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let game of waitingGames">
+      <td>{{game.createdBy.userName}}</td>
+      <td>{{game.numPlayers}}</td>
+      <td>{{game.gameStatus}}</td>
+      <td>Join Game</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

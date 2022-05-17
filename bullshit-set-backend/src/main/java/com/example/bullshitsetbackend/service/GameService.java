@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,8 @@ public class GameService  {
     DeckService deckService;
 
     PlayerService playerService;
+
+    private final static Logger LOGGER = Logger.getLogger(GameService.class.getName());
 
 
     @Autowired
@@ -44,6 +47,8 @@ public class GameService  {
     public List<Game> getWaitingGames(String username) {
         //to-do: filter by games currently not enrolled in
         Player currentPlayer = playerService.getPlayerByUsername(username);
+        LOGGER.info("Current player is " + username);
+
         return gameRepo.findByGameStatus(GameStatus.WAITING).stream().filter(game -> game.getCreatedBy() != currentPlayer).collect(Collectors.toList());
     }
 

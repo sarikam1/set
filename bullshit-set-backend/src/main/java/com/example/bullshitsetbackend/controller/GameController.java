@@ -10,10 +10,7 @@ import com.example.bullshitsetbackend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -49,7 +46,7 @@ public class GameController {
     }
 
     @GetMapping("/waiting")
-    public List<Game> getWaitingGames(String username) {
+    public List<Game> getWaitingGames(@RequestParam("username") String username) {
         List<Game> games = gameService.getWaitingGames(username);
         LOGGER.info("Waiting games list is " + games);
         return games;
