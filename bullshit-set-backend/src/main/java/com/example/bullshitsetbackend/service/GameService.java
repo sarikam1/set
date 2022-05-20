@@ -3,6 +3,7 @@ package com.example.bullshitsetbackend.service;
 import com.example.bullshitsetbackend.DTO.GameDTO;
 import com.example.bullshitsetbackend.domain.Deck;
 import com.example.bullshitsetbackend.domain.Game;
+import com.example.bullshitsetbackend.domain.Participant;
 import com.example.bullshitsetbackend.domain.Player;
 import com.example.bullshitsetbackend.enums.GameStatus;
 import com.example.bullshitsetbackend.repository.GameRepo;
@@ -45,7 +46,7 @@ public class GameService  {
     }
 
     public List<Game> getWaitingGames(String username) {
-        //to-do: filter by games currently not enrolled in
+        //to-do: filter by games currently not enrolled inF
         Player currentPlayer = playerService.getPlayerByUsername(username);
         LOGGER.info("Current player is " + username);
 
@@ -55,14 +56,15 @@ public class GameService  {
 
     public Game createNewGame(Player creator) {
         Game newGame = new Game();
-        //TO:DO--populate deck cards
+        Long gameId = newGame.getId();
         Deck newDeck = deckService.createDeck();
         newGame.setCreatedBy(creator);
         newGame.setCreatedTime(Timestamp.from(Instant.now()));
-        newGame.setNumPlayers(0); //0 players before creator is added as participant
         newGame.setGameStatus(GameStatus.WAITING);
         newGame.setDeck(newDeck);
-        //can only add participants after game has been created
+        Participant creatorAsParticipant = new Participant(creator, newGame, 0);
+        newGame.addParticipant(creatorAsParticipant);
+        newGame.setNumPlayers(1); //creator is a player too
         gameRepo.save(newGame);
         return newGame;
         }

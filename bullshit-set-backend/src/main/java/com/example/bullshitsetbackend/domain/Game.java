@@ -1,11 +1,13 @@
 package com.example.bullshitsetbackend.domain;
 import com.example.bullshitsetbackend.enums.*;
+import com.example.bullshitsetbackend.repository.ParticipantRepo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +28,10 @@ public class Game {
         this.createdTime = createdTime;
         this.numPlayers = numPlayers;
         this.gameStatus = gameStatus;
-        this.endTime = null;
+    }
+
+    public void addParticipant(Participant toAdd) {
+        this.participants.add(toAdd);
     }
 
     @Id
@@ -56,5 +61,5 @@ public class Game {
     private Deck deck;
 
     @OneToMany(mappedBy="game")
-    private List<Participant> participants;
+    private List<Participant> participants = new ArrayList<Participant>();
 }

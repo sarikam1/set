@@ -80,9 +80,9 @@ public class BullshitSetBackendApplication {
             playerRepository.save(new Player("ok_name", "ok_email",  "ok_password"));
 
 
-            Game game1 = new Game(playerService.findPlayerById(Long.valueOf(1)), Timestamp.from(Instant.now()), 1,
-                    GameStatus.WAITING);
-            gameService.addGame(game1);
+//            Game game1 = new Game(playerService.findPlayerById(Long.valueOf(1)), Timestamp.from(Instant.now()), 1,
+//                    GameStatus.WAITING);
+//            gameService.addGame(game1);
 
 
         };

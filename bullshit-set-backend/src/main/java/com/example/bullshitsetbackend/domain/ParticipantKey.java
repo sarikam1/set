@@ -13,6 +13,14 @@ public class ParticipantKey implements Serializable {
     @Column(name = "game_id")
     Long gameId;
 
+    public ParticipantKey(Long playerId, Long gameId) {
+        this.playerId = playerId;
+        this.gameId = gameId;
+    }
+
+    public ParticipantKey() {
+    }
+
     public Long getPlayerId() {
         return playerId;
     }
