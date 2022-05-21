@@ -12,5 +12,8 @@ import java.util.List;
 public interface GameRepo extends JpaRepository<Game, Long> {
     List<Game> findByGameStatus(GameStatus gameStatus);
 
+    Game findGameById(Long id);
+
+
 
 }

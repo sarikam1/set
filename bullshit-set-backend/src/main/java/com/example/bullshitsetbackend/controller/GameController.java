@@ -3,6 +3,7 @@ package com.example.bullshitsetbackend.controller;
 import com.example.bullshitsetbackend.DTO.GameDTO;
 import com.example.bullshitsetbackend.domain.Deck;
 import com.example.bullshitsetbackend.domain.Game;
+import com.example.bullshitsetbackend.domain.Participant;
 import com.example.bullshitsetbackend.domain.Player;
 import com.example.bullshitsetbackend.service.DeckService;
 import com.example.bullshitsetbackend.service.GameService;
@@ -68,6 +69,18 @@ public class GameController {
     public int currentGameId() {
         return (int) httpSession.getAttribute("currentgameId");
     }
+
+    @GetMapping("/join-game")
+    public Participant joinGame(@RequestParam("username") String username, @RequestParam("gameId") long gameId) {
+        return gameService.joinGame(username, gameId);
+    }
+
+    @GetMapping("/get-waiting-participants")
+    public List<Participant> getWaitingParticipants(@RequestParam("gameId") long gameId) {
+        return gameService.getWaitingParticipants(gameId);
+    }
+
+
 
 
 }

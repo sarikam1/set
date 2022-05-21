@@ -26,7 +26,7 @@
       <td>{{game.createdBy.userName}}</td>
       <td>{{game.numPlayers}}</td>
       <td>{{game.gameStatus}}</td>
-      <td>Join Game</td>
+      <td><button mat-raised-button color="accent" (click)="joinGame(game.id)"> Join Game</button></td>
     </tr>
     </tbody>
   </table>

@@ -3,6 +3,7 @@ import {filter, interval, Observable, of, share, Subject, Subscription, switchMa
 import {GameService} from "../../../Game/game.service";
 import {Game} from "../../../shared/models/game";
 import {catchError} from "rxjs/operators";
+import {SharedService} from "../../../shared/shared.service";
 
 @Component({
   selector: 'app-join-game',
@@ -15,7 +16,7 @@ export class JoinGameComponent implements OnInit {
   private stopWaiting = new Subject<void>();
   subscription: Subscription | undefined;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private sharedService: SharedService) {
   }
 
   //https://stackoverflow.com/questions/66217247/make-http-request-call-every-x-minute-in-angular-9
@@ -43,6 +44,10 @@ export class JoinGameComponent implements OnInit {
 
   getWaitingGames(): Observable<Array<Game>> {
     return this.gameService.getWaitingGames();
+  }
+
+  public joinGame(gameId: number): void {
+    this.sharedService.joinGame(gameId);
   }
 
   ngOnDestroy() {

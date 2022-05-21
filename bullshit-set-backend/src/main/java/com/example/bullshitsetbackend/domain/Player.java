@@ -39,8 +39,8 @@ public class Player {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy="player")
-    private List<Participant> participants;
+//    @OneToMany(mappedBy="player")
+//    private List<Participant> participants;
 
 
 }

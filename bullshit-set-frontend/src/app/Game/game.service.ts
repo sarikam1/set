@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Game} from "../shared/models/game";
 import {environment} from "../../environments/environment";
+import {Participant} from "../shared/models/participant";
 
 
 @Injectable(
@@ -24,6 +25,14 @@ export class GameService {
     let currentUser = sessionStorage.getItem('currentUser');
     let params = new HttpParams().set('username', currentUser!); //! throws error when currentUser is undefined
     return this.http.get<Array<Game>>(`${this.apiServerUrl}/api/game/waiting`, {params:params});
+  }
+
+  public joinGame(gameId: number): Observable<Participant> {
+    let currentUser = sessionStorage.getItem('currentUser');
+    let params = new HttpParams().set('username', currentUser!);
+    //params is immutable!
+    params = params.append('gameId', gameId);
+    return this.http.get<Participant>(`${this.apiServerUrl}/api/game/join-game`, {params:params});
   }
 
 }

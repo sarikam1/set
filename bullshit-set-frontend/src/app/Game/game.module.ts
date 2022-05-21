@@ -12,13 +12,15 @@ import {GameComponent} from "./game.component";
 import {RouterModule} from "@angular/router";
 import {SharedService} from "../shared/shared.service";
 import {SharedModule} from "../shared/shared.module";
+// import {JoinedSoFarComponent} from "./components/joined-so-far/joined-so-far.component";
 
 @NgModule({
   declarations: [
 
     WaitingPage,
     InProgessPage,
-    GameComponent
+    GameComponent,
+    // JoinedSoFarComponent
   ],
   imports: [
     BrowserModule,
