@@ -8,19 +8,19 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {AgGridModule} from "ag-grid-angular";
 import {WaitingPage} from "./pages/waiting/waiting.page";
 import {InProgessPage} from "./pages/in-progress/in-progess.page";
-import {GameComponent} from "./game.component";
+// import {GameComponent} from "./game.component";
 import {RouterModule} from "@angular/router";
 import {SharedService} from "../shared/shared.service";
 import {SharedModule} from "../shared/shared.module";
-// import {JoinedSoFarComponent} from "./components/joined-so-far/joined-so-far.component";
+import {JoinedSoFarComponent} from "./components/joined-so-far/joined-so-far.component";
 
 @NgModule({
   declarations: [
 
     WaitingPage,
     InProgessPage,
-    GameComponent,
-    // JoinedSoFarComponent
+    // GameComponent,
+    JoinedSoFarComponent
   ],
   imports: [
     BrowserModule,

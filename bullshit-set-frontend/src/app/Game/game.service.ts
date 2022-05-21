@@ -27,6 +27,13 @@ export class GameService {
     return this.http.get<Array<Game>>(`${this.apiServerUrl}/api/game/waiting`, {params:params});
   }
 
+  public getWaitingParticipantsInGame(): Observable<Array<Participant>> {
+    let currentGameId = sessionStorage.getItem('currentGameId');
+    let params = new HttpParams().set('gameId', currentGameId!);
+    return this.http.get<Array<Participant>>(`${this.apiServerUrl}/api/game/get-waiting-participants`, {params:params});
+
+  }
+
   public joinGame(gameId: number): Observable<Participant> {
     let currentUser = sessionStorage.getItem('currentUser');
     let params = new HttpParams().set('username', currentUser!);

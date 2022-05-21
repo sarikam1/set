@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Open games</h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Participants</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let participant of waitingParticipants">
+      <td>{{participant.player.userName}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
