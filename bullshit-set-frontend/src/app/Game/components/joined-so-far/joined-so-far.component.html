@@ -2,21 +2,21 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <h1>Participants</h1>
+      <h1 style="text-align:center;">Participants</h1>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let participant of waitingParticipants">
-      <td>{{participant.player.userName}}</td>
+      <td style="text-align:center;">{{participant.player.userName}}</td>
     </tr>
     </tbody>
-  </table>
   <br>
   <div *ngIf="this.isCurrentUserCreator(); then thenBlock else elseBlock"></div>
   <ng-template #thenBlock>
-    <p><i>Waiting for {{this.creatorUsername}} to start the game</i></p>
+    <p style="text-align:center;"><i>Waiting for {{this.creatorUsername}} to start the game</i></p>
   </ng-template>
   <ng-template #elseBlock>
-    <p><i>Begin Game</i></p>
+    <p style="text-align:center;"><i>Begin Game</i></p>
   </ng-template>
+  </table>
 </div>
