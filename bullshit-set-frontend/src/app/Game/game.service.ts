@@ -34,6 +34,15 @@ export class GameService {
 
   }
 
+
+  public getCreatorUsername(): Observable<String> {
+    let currentGameId = sessionStorage.getItem('currentGameId');
+    let params = new HttpParams().set('gameId', currentGameId!);
+    //default response type is json, specify string (text)
+    return this.http.get(`${this.apiServerUrl}/api/game/get-creator-username`, {params:params, responseType: 'text'});
+
+  }
+
   public joinGame(gameId: number): Observable<Participant> {
     let currentUser = sessionStorage.getItem('currentUser');
     let params = new HttpParams().set('username', currentUser!);

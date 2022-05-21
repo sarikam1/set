@@ -107,6 +107,11 @@ public class GameService {
 
     }
 
+    public String getGameCreatorUsername(long gameId) {
+        Game currentGame = this.findGameById(gameId);
+        return currentGame.getCreatedBy().getUserName();
+    }
+
 
 }
 

@@ -80,6 +80,11 @@ public class GameController {
         return gameService.getWaitingParticipants(gameId);
     }
 
+    @GetMapping("/get-creator-username")
+    public String getGameCreatorUsername(@RequestParam("gameId") long gameId) {
+        return gameService.getGameCreatorUsername(gameId);
+    }
+
 
 
 

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
-import {filter, interval, Observable, of, share, Subject, Subscription, switchMap, takeUntil, timer} from "rxjs";
+import {filter, interval, Observable, of, share, Subject, Subscription, switchMap, take, takeUntil, timer} from "rxjs";
 import {GameService} from "../../../Game/game.service";
 import {Game} from "../../../shared/models/game";
 import {catchError} from "rxjs/operators";
@@ -17,13 +17,19 @@ export class JoinedSoFarComponent implements OnInit {
   @Output() currentGame: undefined | Game;
   private stopWaiting = new Subject<void>();
   subscription: Subscription | undefined;
+  public creatorUsername: String = "someone";
 
-  constructor(private gameService: GameService, private sharedService: SharedService) {
+  constructor(public gameService: GameService, public sharedService: SharedService) {
   }
 
   //https://stackoverflow.com/questions/66217247/make-http-request-call-every-x-minute-in-angular-9
   //https://blog.angulartraining.com/how-to-do-polling-with-rxjs-and-angular-50d635574965
   ngOnInit(): void {
+    this.gameService.getCreatorUsername().pipe().subscribe(res => {
+      console.log(res);
+      this.creatorUsername = res.toString();
+    });
+
     this.subscription = timer(0, 5000)
       .pipe( //to combine multiple functions into one function
         switchMap(() => { //switchMap turns an observable into another observable: number -> http request
@@ -42,6 +48,11 @@ export class JoinedSoFarComponent implements OnInit {
         this.waitingParticipants = data;
         console.log(this.waitingParticipants);
       });
+
+  }
+
+  isCurrentUserCreator(): boolean {
+    return this.creatorUsername == (sessionStorage.getItem('currentUser'));
   }
 
   getWaitingParticipants(): Observable<Array<Participant>> {

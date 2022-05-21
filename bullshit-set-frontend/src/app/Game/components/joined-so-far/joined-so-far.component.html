@@ -1,9 +1,8 @@
 <div class="container">
-  <h1>Open games</h1>
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>Participants</th>
+      <h1>Participants</h1>
     </tr>
     </thead>
     <tbody>
@@ -12,4 +11,12 @@
     </tr>
     </tbody>
   </table>
+  <br>
+  <div *ngIf="this.isCurrentUserCreator(); then thenBlock else elseBlock"></div>
+  <ng-template #thenBlock>
+    <p><i>Waiting for {{this.creatorUsername}} to start the game</i></p>
+  </ng-template>
+  <ng-template #elseBlock>
+    <p><i>Begin Game</i></p>
+  </ng-template>
 </div>

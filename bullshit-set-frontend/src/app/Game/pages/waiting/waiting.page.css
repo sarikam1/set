@@ -1,4 +1,11 @@
-.item-2 {
+
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  min-height: 100vh;
   background-color: #55b296;
 }
