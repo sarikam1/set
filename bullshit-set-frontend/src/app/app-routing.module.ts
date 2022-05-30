@@ -5,6 +5,7 @@ import {InProgessPage} from "./Game/pages/in-progress/in-progess.page";
 import {PlayerLandingPage} from "./player/pages/landing/landing.page";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuardService} from "./auth-guard.service";
+import {testWsComponent} from "./Game/components/test-ws/test-ws.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'app/player-landing', component: PlayerLandingPage, canActivate:[AuthGuardService]},
   { path: 'app/waiting', component: WaitingPage, canActivate:[AuthGuardService]},
   { path: 'app/game/create', component: WaitingPage, canActivate:[AuthGuardService]},
+  { path: 'app/test-ws', component: InProgessPage},
 
 ];
 

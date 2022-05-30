@@ -1,7 +1,6 @@
 package com.example.bullshitsetbackend.config;
 
 import com.example.bullshitsetbackend.repository.PlayerRepo;
-import com.example.bullshitsetbackend.security.AuthenticationFilter;
 import com.example.bullshitsetbackend.security.CustomAuthenticationEntryPoint;
 import com.example.bullshitsetbackend.security.UserDetailsServiceImpl;
 import com.example.bullshitsetbackend.service.PlayerService;
@@ -75,11 +74,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/gs-guide-websocket");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/api/**").permitAll()
+                    .antMatchers("/api/**", "/stream/**", "/gs-guide-websocket/**").permitAll() //prevents cors issue?
                     .anyRequest().authenticated().and().
                 httpBasic().authenticationEntryPoint(authenticationEntryPoint);
     }
@@ -88,6 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
+
+
 }
 
 

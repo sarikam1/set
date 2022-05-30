@@ -13,14 +13,17 @@ import {RouterModule} from "@angular/router";
 import {SharedService} from "../shared/shared.service";
 import {SharedModule} from "../shared/shared.module";
 import {JoinedSoFarComponent} from "./components/joined-so-far/joined-so-far.component";
+import {testWsComponent} from "./components/test-ws/test-ws.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
 
     WaitingPage,
     InProgessPage,
-    // GameComponent,
-    JoinedSoFarComponent
+    JoinedSoFarComponent,
+    testWsComponent,
+    InProgessPage
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import {JoinedSoFarComponent} from "./components/joined-so-far/joined-so-far.com
     AgGridModule.withComponents([]),
     FlexLayoutModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    FormsModule
 
   ],
   providers: [],

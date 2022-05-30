@@ -4,5 +4,20 @@
     "target": "http://localhost:8080",
     "secure": false,
     "loglevel": "debug"
+  },
+
+  "/gs-guide-websocket/*": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "loglevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/gs-guide-websocket" : ""}
+  },
+
+  "/stream": {
+    "target": "ws://localhost:8080",
+    "secure": false,
+    "loglevel": "debug",
+    "ws": true
   }
 }
