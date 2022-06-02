@@ -11,14 +11,14 @@ import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
 @EnableWebSocketMessageBroker
-@Controller
 class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/stream");
+        config.enableSimpleBroker("/topic", "/user", "/queue");
+        config.setApplicationDestinationPrefixes("/stream"); //to separate from http routes
+//        config.setUserDestinationPrefix("/user");
     }
 
     @Override

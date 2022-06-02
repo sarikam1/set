@@ -15,6 +15,7 @@ import {SharedModule} from "../shared/shared.module";
 import {JoinedSoFarComponent} from "./components/joined-so-far/joined-so-far.component";
 import {testWsComponent} from "./components/test-ws/test-ws.component";
 import {FormsModule} from "@angular/forms";
+import {inProgressCards} from "./components/test-ws2/in-progress-cards";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {FormsModule} from "@angular/forms";
     InProgessPage,
     JoinedSoFarComponent,
     testWsComponent,
-    InProgessPage
+    InProgessPage,
+    inProgressCards
   ],
   imports: [
     BrowserModule,
