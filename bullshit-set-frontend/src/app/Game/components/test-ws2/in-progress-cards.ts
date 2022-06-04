@@ -10,7 +10,6 @@ import * as Stomp from 'stompjs';
 })
 export class inProgressCards {
 
-
   greetings: string[] = [];
   disabled = true;
   name: string | undefined;
@@ -19,7 +18,6 @@ export class inProgressCards {
   private input: any;
   disconnectDisabled = false;
   leaveMessage: string = "";
-  sessionId: string = "";
   username = sessionStorage.getItem('currentUser');
 
 
@@ -55,7 +53,6 @@ export class inProgressCards {
     }
 
 
-    //let _this = this;
     window.addEventListener('load', () => {
       let username = sessionStorage.getItem('currentUser');
       let disconnectButton = document.getElementById("webchat_disconnect");
@@ -96,11 +93,10 @@ export class inProgressCards {
 
   leaveGame() {
     this.stompClientSendMessage(this.stompClient, '/stream/leaveGame', this.username);
+    sessionStorage.removeItem('currentGameId');
+
     this.disconnect();
   }
-
-
-
 
 
   setConnected(connected: boolean) {

@@ -16,17 +16,17 @@
     <thead>
     <tr>
       <th>Started By</th>
-      <th>Number of Participants</th>
+      <th>Number of Players</th>
       <th>Status</th>
       <th>Join</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let game of waitingGames">
-      <td>{{game.createdBy.userName}}</td>
-      <td>{{game.numPlayers}}</td>
-      <td>{{game.gameStatus}}</td>
-      <td><button mat-raised-button color="accent" (click)="joinGame(game.id)"> Join Game</button></td>
+      <td style="text-align:center">{{game.createdBy.userName}}</td>
+      <td style="text-align:center">{{game.numPlayers}}</td>
+      <td style="text-align:center">{{game.gameStatus}}</td>
+      <td style="text-align:center"><button mat-raised-button color="primary" (click)="joinGame(game.id)"> Join Game</button></td>
     </tr>
     </tbody>
   </table>

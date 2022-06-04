@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Game} from "../shared/models/game";
 import {environment} from "../../environments/environment";
 import {Participant} from "../shared/models/participant";
+import {Router} from "@angular/router";
 
 
 @Injectable(
@@ -15,7 +16,7 @@ import {Participant} from "../shared/models/participant";
 )
 export class GameService {
   private apiServerUrl = environment.apiBaseUrl;
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private router: Router){}
 
   public createGame(): Observable<Game> {
     return this.http.get<Game>(`${this.apiServerUrl}/api/game/create`);
@@ -50,5 +51,15 @@ export class GameService {
     params = params.append('gameId', gameId);
     return this.http.get<Participant>(`${this.apiServerUrl}/api/game/join-game`, {params:params});
   }
+
+  public startGame() {
+    let currentGameId = sessionStorage.getItem('currentGameId');
+    this.router.navigate(['app/game/play/' + currentGameId]).then(r =>
+    {
+
+    });
+  }
+
+
 
 }

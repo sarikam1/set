@@ -14,12 +14,13 @@ import {SharedService} from "../../../shared/shared.service";
 export class JoinedSoFarComponent implements OnInit {
 
   @Output() waitingParticipants: undefined | Array<Participant> = new Array<Participant>();
-  @Output() currentGame: undefined | Game;
+  @Output() currentGameId: string;
   private stopWaiting = new Subject<void>();
   subscription: Subscription | undefined;
   public creatorUsername: String = "someone";
 
   constructor(public gameService: GameService, public sharedService: SharedService) {
+    this.currentGameId = sessionStorage.getItem('currentGameId') || "-1";
   }
 
   //https://stackoverflow.com/questions/66217247/make-http-request-call-every-x-minute-in-angular-9
@@ -57,6 +58,10 @@ export class JoinedSoFarComponent implements OnInit {
 
   getWaitingParticipants(): Observable<Array<Participant>> {
     return this.gameService.getWaitingParticipantsInGame();
+  }
+
+  startGame() {
+    return this.gameService.startGame();
   }
 
 

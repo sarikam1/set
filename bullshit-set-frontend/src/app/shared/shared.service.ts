@@ -23,10 +23,10 @@ export class SharedService {
       next: (response: Game) => {
         this.currentGame = response;
         sessionStorage.setItem("currentGameId", String(response.id));
-        console.log(this.currentGame);
-        console.log(sessionStorage.getItem("currentGameId"));
-        this.router.navigate(['app/waiting']).then(() => {
-            //handle after navigation logic
+        let gameId = sessionStorage.getItem("currentGameId");
+        console.log(gameId);
+
+        this.router.navigate(['app/waiting/' + gameId]).then(() => {
           }
         )
       },
