@@ -65,6 +65,14 @@ public class GameController {
         return newGame;
     }
 
+    @GetMapping("/can-create-game")
+    public boolean canCreateGame() {
+        Player player = playerService.getLoggedUser();
+        boolean can_create = gameService.canCreateGame(player.getUserName());
+        LOGGER.info("can create is " + can_create);
+        return can_create;
+    }
+
     @GetMapping("/current-game")
     public int currentGameId() {
         return (int) httpSession.getAttribute("currentgameId");

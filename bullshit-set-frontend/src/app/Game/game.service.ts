@@ -1,7 +1,7 @@
 import { Observable, throwError} from "rxjs";
 import { catchError, retry } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Game} from "../shared/models/game";
 import {environment} from "../../environments/environment";
 import {Participant} from "../shared/models/participant";
@@ -34,6 +34,11 @@ export class GameService {
     return this.http.get<Array<Participant>>(`${this.apiServerUrl}/api/game/get-waiting-participants`, {params:params});
 
   }
+  public canCreateGame(): Observable<boolean> {
+    //default response type is json, specify string (text)
+    return this.http.get<boolean>(`${this.apiServerUrl}/api/game/can-create-game`);
+  }
+
 
 
   public getCreatorUsername(): Observable<String> {

@@ -1,4 +1,7 @@
 <div class="example-button-row">
 <!--  <button mat-raised-button color="accent"><a [routerLink]="['/google.com']" >Game</a></button>-->
-  <button mat-raised-button color="accent" (click)="newGame()"> Create Game </button>
+  <div *ngIf="canCreate; then thenBlock"></div>
+  <ng-template #thenBlock>
+    <button mat-raised-button color="accent" (click)="newGame()"> Create Game </button>
+  </ng-template>
 </div>

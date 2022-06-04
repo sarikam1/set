@@ -61,6 +61,19 @@ public class GameService {
         return gameRepo.findByGameStatus(GameStatus.WAITING).stream().filter(game -> game.getCreatedBy() != currentPlayer).collect(Collectors.toList());
     }
 
+    public Boolean canCreateGame(String username) {
+        Player currentPlayer = playerService.getPlayerByUsername(username);
+        List<Game> games = gameRepo.findByGameStatusAndCreatedBy(GameStatus.WAITING, currentPlayer);
+        if(games.size() >= 1) {
+            LOGGER.info("games list from player is " + games);
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
 
     public Game createNewGame(Player creator) {
         Game newGame = new Game();
