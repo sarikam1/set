@@ -79,11 +79,11 @@ public class GameService {
     public Game createNewGame(Player creator) {
         Game newGame = new Game();
         Long gameId = newGame.getId();
-        Deck newDeck = deckService.createDeck();
+        //Deck newDeck = deckService.createEmptyDeck();
         newGame.setCreatedBy(creator);
         newGame.setCreatedTime(Timestamp.from(Instant.now()));
         newGame.setGameStatus(GameStatus.WAITING);
-        newGame.setDeck(newDeck);
+        //newGame.setDeck(newDeck);
         Participant creatorAsParticipant = new Participant(creator, newGame, 0);
         LOGGER.info("newParticipant is " + creatorAsParticipant);
         newGame.addParticipant(creatorAsParticipant); //update on both ends

@@ -58,4 +58,10 @@ public class DeckService {
         return newDeck;
     }
 
+    public Deck createEmptyDeck() {
+        Deck newDeck = new Deck();
+        deckRepo.save(newDeck);
+        return newDeck;
+    }
+
 }

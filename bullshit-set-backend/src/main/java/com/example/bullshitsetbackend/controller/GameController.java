@@ -59,8 +59,7 @@ public class GameController {
         Player player = playerService.getLoggedUser();
         LOGGER.info("current player is " + player.getUserName());
         Game newGame = gameService.createNewGame(player);
-        this.deckService.printDeck(newGame.getDeck());
-
+        //this.deckService.printDeck(newGame.getDeck());
         httpSession.setAttribute("currentGameId", newGame.getId());
         LOGGER.info("current game is " + newGame);
         return newGame;

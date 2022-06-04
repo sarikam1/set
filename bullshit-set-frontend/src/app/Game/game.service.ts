@@ -40,8 +40,6 @@ export class GameService {
     return this.http.get<boolean>(`${this.apiServerUrl}/api/game/can-create-game`);
   }
 
-
-
   public getCreatorUsername(): Observable<String> {
     let currentGameId = sessionStorage.getItem('currentGameId');
     let params = new HttpParams().set('gameId', currentGameId!);

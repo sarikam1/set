@@ -2,12 +2,10 @@ package com.example.bullshitsetbackend.controller;
 
 import com.example.bullshitsetbackend.DTO.Greeting;
 import com.example.bullshitsetbackend.DTO.HelloMessage;
+import com.example.bullshitsetbackend.service.PlayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
@@ -29,12 +27,14 @@ public class PlayController {
     //https://stackoverflow.com/questions/26110182/should-all-members-shared-between-websocket-sessions-be-synchronized
     //https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html#synchronizedSet-java.util.Set-
     private final Set connectedParticipants;
+    private PlayService playService;
 
 
     @Autowired //not necessary after Spring 4
-    public PlayController(SimpMessagingTemplate simpMessagingTemplate) {
+    public PlayController(SimpMessagingTemplate simpMessagingTemplate, PlayService playService) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.connectedParticipants = new HashSet();
+        this.playService = playService;
     }
 
 
@@ -48,26 +48,25 @@ public class PlayController {
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
 
-    @MessageMapping("/joinGame")
+    @MessageMapping("/joinGame/{gameId}")
     //@SendToUser("/queue/newMember")
     //message payload bound to HelloMessage object
-    public void joinGame(MessageHeaders messageHeaders, @Payload String username, @Header(name = "simpSessionId") String sessionID) throws Exception {
+    public List<String> joinGame(@DestinationVariable String gameId, MessageHeaders messageHeaders, @Payload String username, @Header(name = "simpSessionId") String sessionID) throws Exception {
         LOGGER.info("Inside /joinGame");
+        List<String> toReturn = new ArrayList<String>();
         if (!connectedParticipants.contains(username)) {
             connectedParticipants.add(username);
             LOGGER.info("Adding " + username + " to game!");
-            LOGGER.info("sessionId is " + sessionID);
             LOGGER.info("Returning " + connectedParticipants);
-            List<String> toReturn = new ArrayList<String>();
-            toReturn.addAll(connectedParticipants);
-            simpMessagingTemplate.convertAndSend("/queue/newMember-" + username, toReturn);
+            //simpMessagingTemplate.convertAndSend("/queue/newMember-" + username, toReturn);
         }
+        toReturn.addAll(connectedParticipants);
+        return toReturn;
     }
 
-    @MessageMapping("/leaveGame")
+    @MessageMapping("/leaveGame/{gameId}")
    //@SendToUser("/queue/leftMember")
-    //message payload bound to HelloMessage object
-    public String leaveGame(String username) throws Exception {
+    public String leaveGame(@DestinationVariable String gameId, String username) throws Exception {
         LOGGER.info("Inside /leaveGame");
         if (connectedParticipants.contains(username)) {
             connectedParticipants.remove(username);

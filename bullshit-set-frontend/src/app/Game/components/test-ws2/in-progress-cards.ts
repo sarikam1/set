@@ -14,7 +14,8 @@ export class inProgressCards {
   disabled = true;
   name: string | undefined;
   private stompClient: any;
-  participantList: string[] =  JSON.parse(localStorage.getItem('gameParticipantList') || "[]");
+  participantList: string[] =  JSON.parse(sessionStorage.getItem('gameParticipantList') || "[]");
+  currentGameId = sessionStorage.getItem('currentGameId') || "";
   private input: any;
   disconnectDisabled = false;
   leaveMessage: string = "";
@@ -43,7 +44,7 @@ export class inProgressCards {
     }
 
     const addToParticipantList = (participants: string[]) => {
-      localStorage.setItem('gameParticipantList', JSON.stringify(participants));
+      sessionStorage.setItem('gameParticipantList', JSON.stringify(participants));
       this.participantList = participants;
       return this.participantList;
     }
@@ -58,7 +59,7 @@ export class inProgressCards {
       let disconnectButton = document.getElementById("webchat_disconnect");
 
       connect()
-        .then((stompClient) => stompSubscribe(stompClient,'/queue/newMember-'+username, (data: { body: string }) => {
+        .then((stompClient) => stompSubscribe(stompClient,'/topic/joinGame/' + this.currentGameId, (data: { body: string }) => {
           console.log("inside callback newMember");
           console.log(data);
           let res = addToParticipantList(JSON.parse(data.body));
@@ -73,7 +74,7 @@ export class inProgressCards {
           console.log(data);
           leaveMessage(data);
         }))
-        .then((stompClient) => this.stompClientSendMessage(stompClient, '/stream/joinGame', username))
+        .then((stompClient) => this.stompClientSendMessage(stompClient, '/stream/joinGame/' + this.currentGameId, username))
         // .then((stompClient) => disconnectButton!.addEventListener('click', () =>
         //   stompClientSendMessage(stompClient, '/stream/leaveGame', username)))
 
@@ -92,9 +93,8 @@ export class inProgressCards {
   }
 
   leaveGame() {
-    this.stompClientSendMessage(this.stompClient, '/stream/leaveGame', this.username);
+    this.stompClientSendMessage(this.stompClient, '/stream/leaveGame/' +  this.currentGameId, this.username);
     sessionStorage.removeItem('currentGameId');
-
     this.disconnect();
   }
 

@@ -74,7 +74,7 @@ export class JoinedSoFarComponent implements OnInit {
 
   hostStartGame() {
     this.gameService.changeStatusToInProgress().subscribe(res => {
-      console.log("done changing");
+      console.log("done changing status");
       this.gameService.startGame();
     })
   }
