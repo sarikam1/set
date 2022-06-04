@@ -6,6 +6,7 @@ import {Game} from "../shared/models/game";
 import {environment} from "../../environments/environment";
 import {Participant} from "../shared/models/participant";
 import {Router} from "@angular/router";
+import {waitingRoomDTO} from "../shared/models/waitingRoomDTO";
 
 
 @Injectable(
@@ -28,10 +29,10 @@ export class GameService {
     return this.http.get<Array<Game>>(`${this.apiServerUrl}/api/game/waiting`, {params:params});
   }
 
-  public getWaitingParticipantsInGame(): Observable<Array<Participant>> {
+  public getWaitingParticipantsInGame(): Observable<waitingRoomDTO> {
     let currentGameId = sessionStorage.getItem('currentGameId');
     let params = new HttpParams().set('gameId', currentGameId!);
-    return this.http.get<Array<Participant>>(`${this.apiServerUrl}/api/game/get-waiting-participants`, {params:params});
+    return this.http.get<waitingRoomDTO>(`${this.apiServerUrl}/api/game/get-waiting-info`, {params:params});
 
   }
   public canCreateGame(): Observable<boolean> {
@@ -61,8 +62,16 @@ export class GameService {
     let currentGameId = sessionStorage.getItem('currentGameId');
     this.router.navigate(['app/game/play/' + currentGameId]).then(r =>
     {
-
     });
+  }
+
+  public changeStatusToInProgress(): Observable<void>  {
+    let currentGameId = sessionStorage.getItem('currentGameId');
+    let params = new HttpParams().set('gameId', currentGameId!);
+    //default response type is json, specify string (text)
+    console.log("changing game status!");
+    return this.http.get<void>(`${this.apiServerUrl}/api/game/start-game`, {params:params});
+
   }
 
 

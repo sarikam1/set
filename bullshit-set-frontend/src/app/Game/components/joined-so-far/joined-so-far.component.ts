@@ -1,10 +1,11 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {filter, interval, Observable, of, share, Subject, Subscription, switchMap, take, takeUntil, timer} from "rxjs";
+import {Component, OnInit, Output} from '@angular/core';
+import {filter, Observable, of, share, Subject, Subscription, switchMap, takeUntil, timer} from "rxjs";
 import {GameService} from "../../../Game/game.service";
-import {Game} from "../../../shared/models/game";
 import {catchError} from "rxjs/operators";
 import {Participant} from "../../../shared/models/participant";
 import {SharedService} from "../../../shared/shared.service";
+import {waitingRoomDTO} from "../../../shared/models/waitingRoomDTO";
+import {gameStatus} from "../../../shared/enums/gameStatus";
 
 @Component({
   selector: 'app-joined-so-far',
@@ -46,8 +47,11 @@ export class JoinedSoFarComponent implements OnInit {
         takeUntil(this.stopWaiting)
       )
       .subscribe(data => {
-        this.waitingParticipants = data;
-        console.log(this.waitingParticipants);
+        console.log(data);
+        this.waitingParticipants = data?.participants;
+        if(data?.gameStatus == gameStatus.IN_PROGRESS) {
+          this.startGame();
+        }
       });
 
   }
@@ -56,12 +60,23 @@ export class JoinedSoFarComponent implements OnInit {
     return this.creatorUsername == (sessionStorage.getItem('currentUser'));
   }
 
-  getWaitingParticipants(): Observable<Array<Participant>> {
+  getWaitingParticipants(): Observable<waitingRoomDTO> {
     return this.gameService.getWaitingParticipantsInGame();
   }
 
+  // getGameReady(): Observable<Array<Participant>> {
+  //   return this.gameService.getWaitingParticipantsInGame();
+  // }
+
   startGame() {
-    return this.gameService.startGame();
+    this.gameService.startGame();
+  }
+
+  hostStartGame() {
+    this.gameService.changeStatusToInProgress().subscribe(res => {
+      console.log("done changing");
+      this.gameService.startGame();
+    })
   }
 
 

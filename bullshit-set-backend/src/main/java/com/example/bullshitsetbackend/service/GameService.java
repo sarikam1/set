@@ -1,6 +1,7 @@
 package com.example.bullshitsetbackend.service;
 
 import com.example.bullshitsetbackend.DTO.GameDTO;
+import com.example.bullshitsetbackend.DTO.WaitingRoomDTO;
 import com.example.bullshitsetbackend.domain.Deck;
 import com.example.bullshitsetbackend.domain.Game;
 import com.example.bullshitsetbackend.domain.Participant;
@@ -64,7 +65,7 @@ public class GameService {
     public Boolean canCreateGame(String username) {
         Player currentPlayer = playerService.getPlayerByUsername(username);
         List<Game> games = gameRepo.findByGameStatusAndCreatedBy(GameStatus.WAITING, currentPlayer);
-        if(games.size() >= 1) {
+        if(games.size() >= 10) {
             LOGGER.info("games list from player is " + games);
             return false;
         }
@@ -111,13 +112,19 @@ public class GameService {
 
     }
 
-    public List<Participant> getWaitingParticipants(long gameId) {
+    public WaitingRoomDTO getWaitingRoomInfo(long gameId) {
+        WaitingRoomDTO waitingRoomDTO = new WaitingRoomDTO();
         Game currentGame = this.findGameById(gameId);
-        if(currentGame.getGameStatus() != GameStatus.WAITING) {
-            return null;
-        }
-        return currentGame.getParticipants();
+        waitingRoomDTO.setParticipants(currentGame.getParticipants());
+        waitingRoomDTO.setGameStatus(currentGame.getGameStatus());
+        return waitingRoomDTO;
+    }
 
+    public void startGame(long gameId) {
+        Game currentGame = this.findGameById(gameId);
+        currentGame.setGameStatus(GameStatus.IN_PROGRESS);
+        LOGGER.info("new game status is " + currentGame.getGameStatus());
+        gameRepo.save(currentGame);
     }
 
     public String getGameCreatorUsername(long gameId) {

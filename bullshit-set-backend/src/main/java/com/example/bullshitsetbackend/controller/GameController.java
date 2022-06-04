@@ -1,6 +1,7 @@
 package com.example.bullshitsetbackend.controller;
 
 import com.example.bullshitsetbackend.DTO.GameDTO;
+import com.example.bullshitsetbackend.DTO.WaitingRoomDTO;
 import com.example.bullshitsetbackend.domain.Deck;
 import com.example.bullshitsetbackend.domain.Game;
 import com.example.bullshitsetbackend.domain.Participant;
@@ -83,9 +84,15 @@ public class GameController {
         return gameService.joinGame(username, gameId);
     }
 
-    @GetMapping("/get-waiting-participants")
-    public List<Participant> getWaitingParticipants(@RequestParam("gameId") long gameId) {
-        return gameService.getWaitingParticipants(gameId);
+    @GetMapping("/get-waiting-info")
+    public WaitingRoomDTO getWaitingRoomInfo(@RequestParam("gameId") long gameId) {
+        return gameService.getWaitingRoomInfo(gameId);
+    }
+
+    @GetMapping("/start-game")
+    public void startGame(@RequestParam("gameId") long gameId) {
+        LOGGER.info("start-game");
+        gameService.startGame(gameId);
     }
 
     @GetMapping("/get-creator-username")

@@ -1,6 +1,7 @@
 import {Player} from "./player";
 import {Deck} from "./deck";
 import {Participant} from "./participant";
+import {gameStatus} from "../enums/gameStatus";
 
 export interface Game {
   id: number;
@@ -8,7 +9,7 @@ export interface Game {
   createdTime: string;
   endTime: string;
   numPlayers: number;
-  gameStatus: string;
+  gameStatus: gameStatus;
   deck: Deck;
   participants: Participant[];
 

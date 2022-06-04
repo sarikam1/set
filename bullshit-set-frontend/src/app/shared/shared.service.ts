@@ -42,7 +42,7 @@ export class SharedService {
         sessionStorage.setItem("currentParticipantId", String(response.id));
         sessionStorage.setItem("currentGameId", String(gameId));
         console.log(sessionStorage.getItem("currentParticipantId"));
-        this.router.navigate(['app/waiting']).then(
+        this.router.navigate(['app/waiting/' + gameId]).then(
           () => {/*handle after nav*/
           }
         )
