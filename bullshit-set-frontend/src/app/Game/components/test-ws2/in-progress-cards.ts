@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, NgZone, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, Input, NgZone, ViewChild} from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 
@@ -15,11 +15,12 @@ export class inProgressCards {
   disabled = true;
   name: string | undefined;
   private stompClient: any;
-  participantList: string[] = [];
+  participantList: string[] =  JSON.parse(localStorage.getItem('gameParticipantList') || "[]");
   private input: any;
   disconnectDisabled = false;
   leaveMessage: string = "";
   sessionId: string = "";
+  username = sessionStorage.getItem('currentUser');
 
 
   constructor() {
@@ -36,11 +37,15 @@ export class inProgressCards {
         const socket = new SockJS('http://localhost:8080/gs-guide-websocket');
          let stompClient = Stomp.over(socket);
         //headers, connectCallback
-        stompClient.connect({}, (frame) => resolve(stompClient))
+        stompClient.connect({}, (frame) => {
+            this.stompClient = stompClient;
+            resolve(stompClient)
+          })
       })
     }
 
     const addToParticipantList = (participants: string[]) => {
+      localStorage.setItem('gameParticipantList', JSON.stringify(participants));
       this.participantList = participants;
       return this.participantList;
     }
@@ -49,18 +54,11 @@ export class inProgressCards {
       this.leaveMessage = message;
     }
 
-    const stompClientSendMessage = (stompClient: any, endpoint: string, message: string | null) =>{ // 9
-      stompClient.send(endpoint, {}, message);
-      return stompClient;
-    }
 
-
-
-    window.addEventListener('load', function (event) {
+    //let _this = this;
+    window.addEventListener('load', () => {
       let username = sessionStorage.getItem('currentUser');
       let disconnectButton = document.getElementById("webchat_disconnect");
-
-
 
       connect()
         .then((stompClient) => stompSubscribe(stompClient,'/queue/newMember-'+username, (data: { body: string }) => {
@@ -78,12 +76,31 @@ export class inProgressCards {
           console.log(data);
           leaveMessage(data);
         }))
-        .then((stompClient) => stompClientSendMessage(stompClient, '/stream/joinGame', username))
-        .then((stompClient) => disconnectButton!.addEventListener('click', () =>
-          stompClientSendMessage(stompClient, '/stream/leaveGame', username)))
+        .then((stompClient) => this.stompClientSendMessage(stompClient, '/stream/joinGame', username))
+        // .then((stompClient) => disconnectButton!.addEventListener('click', () =>
+        //   stompClientSendMessage(stompClient, '/stream/leaveGame', username)))
 
     });
+
+    window.addEventListener('beforeunload', this.leaveGame.bind(this));
+
+
   }
+
+
+  stompClientSendMessage(stompClient: any, endpoint: string, message: string | null) { // 9
+    stompClient.send(endpoint, {}, message);
+    this.stompClient = stompClient;
+    return stompClient;
+  }
+
+  leaveGame() {
+    this.stompClientSendMessage(this.stompClient, '/stream/leaveGame', this.username);
+    this.disconnect();
+  }
+
+
+
 
 
   setConnected(connected: boolean) {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from '../auth.service';
 import {User} from "../shared/models/user";
 
@@ -11,13 +11,15 @@ import {User} from "../shared/models/user";
 export class LoginComponent implements OnInit {
 
   credentials: User = { username: "", password: "" };
+  returnUrl : string = "app/player-landing";
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
     sessionStorage.setItem('currentUser', '');
     console.log(sessionStorage.getItem('token'), sessionStorage.getItem('currentUser'));
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || "app/player-landing";
   }
 
   login(){
@@ -43,7 +45,7 @@ export class LoginComponent implements OnInit {
     console.log(sessionStorage.getItem('token'), sessionStorage.getItem('currentUser'));
     if(this.authService.authenticated) {
       console.log("Redirecting!")
-      this.router.navigate(['app/player-landing'])
+      this.router.navigateByUrl(this.returnUrl);
     }
   }
 

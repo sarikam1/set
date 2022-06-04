@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'app/player-landing', component: PlayerLandingPage, canActivate:[AuthGuardService]},
   { path: 'app/waiting', component: WaitingPage, canActivate:[AuthGuardService]},
   { path: 'app/game/create', component: WaitingPage, canActivate:[AuthGuardService]},
-  { path: 'app/test-ws', component: InProgessPage},
+  { path: 'app/game/play', component: InProgessPage, canActivate:[AuthGuardService]},
 
 ];
 

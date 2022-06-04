@@ -12,9 +12,11 @@ export class AuthGuardService implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean>|Promise<boolean>|boolean {
+    let url = state.url;
     //https://stackoverflow.com/questions/37364973/what-is-the-difference-between-promises-and-observables
     if (!sessionStorage.getItem('currentUser')) {
-      this.router.navigate(['app/login']);
+      this.router.navigate(['app/login'], {queryParams: {returnUrl: url}});
+      return false;
     }
     return true;
   }
