@@ -17,7 +17,9 @@ import {waitingRoomDTO} from "../shared/models/waitingRoomDTO";
 )
 export class GameService {
   private apiServerUrl = environment.apiBaseUrl;
-  constructor(private http: HttpClient, private router: Router){}
+  constructor(private http: HttpClient, private router: Router){
+    // this.router.routeReuseStrategy = () => false;
+  }
 
   public createGame(): Observable<Game> {
     return this.http.get<Game>(`${this.apiServerUrl}/api/game/create`);

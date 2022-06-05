@@ -49,8 +49,6 @@ public class PlayController {
     }
 
     @MessageMapping("/joinGame/{gameId}")
-    //@SendToUser("/queue/newMember")
-    //message payload bound to HelloMessage object
     public List<String> joinGame(@DestinationVariable String gameId, MessageHeaders messageHeaders, @Payload String username, @Header(name = "simpSessionId") String sessionID) throws Exception {
         LOGGER.info("Inside /joinGame");
         List<String> toReturn = new ArrayList<String>();
@@ -65,17 +63,15 @@ public class PlayController {
     }
 
     @MessageMapping("/leaveGame/{gameId}")
-   //@SendToUser("/queue/leftMember")
-    public String leaveGame(@DestinationVariable String gameId, String username) throws Exception {
+    public List<String> leaveGame(@DestinationVariable String gameId, String username) throws Exception {
         LOGGER.info("Inside /leaveGame");
+        List<String> toReturn = new ArrayList<String>();
         if (connectedParticipants.contains(username)) {
             connectedParticipants.remove(username);
             LOGGER.info("Removing " + username + " from game!");
-            simpMessagingTemplate.convertAndSendToUser(username,"/topic/newMember", username);
-            return "Successfully left Game";
-        } else {
-            return "Not in game, cannot leave";
         }
+        toReturn.addAll(connectedParticipants);
+        return toReturn;
     }
 
 }
